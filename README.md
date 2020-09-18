@@ -246,6 +246,16 @@ Método | Objetivo
 
 # Multiplas Interfaces
 
+​	Nesse ponto é interessante considerar dois elementos do componente `View Histórico`
+
+- A interface com todos os componentes existentes nele é realizada via um Barramento Interno que trabalha com uma arquitetura de tópicos contendo mensagens em um protocolo definido de comunicação.
+  Com isso, toda a interface do módulo de `Controller Historico` sempre acontece via esta estrutura de comunicação, de forma que, se um novo componente `View`poderia ser usado diretamente, desde que utilizasse a mesma arquitetura de troca de mensagens, implementando as interfaces `HistView` e `ViewRequest`
+
+- A abordagem já considerada dentro do próprio componente `View Historico`, onde um componente consegue exibir seus dados utilizando multiplas interfaces.
+  A idéia é utilizar uma implementação como a do padrão `Abstract Facotry`, exemplificada via o componente `View Historico Produto` abaixo
+
+  ![Abstract Factory - View Historico Produto](images/multiplas_interfaces_factory.jpg)
+
 > Escreva um texto detalhando como seus componentes  podem ser preparados para que seja possível trocar de interface apenas trocando o componente View e mantendo o Model e Controller.
 >
 > É recomendado a inserção de, pelo menos, um diagrama que deve ser descrito no texto. O formato do diagrama é livre e deve ilustrar a arquitetura proposta.
