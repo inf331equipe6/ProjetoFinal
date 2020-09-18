@@ -158,7 +158,7 @@ Método | Objetivo
 
 > ![Diagrama da Interface](images/i-historico-cliente.png)
 
-> O objetivo dessa Interface é retornar o histórico de um Cliente e a mesma está localizada dentro do `Controller Historico"`
+> O objetivo dessa Interface é retornar o histórico de um Cliente e a mesma está localizada dentro do `Controller Historico`
 
 Método | Objetivo
 -------| --------
@@ -168,7 +168,7 @@ Método | Objetivo
 
 > ![Diagrama da Interface](images/i-historico-fornecedor.png)
 
-> O objetivo dessa Interface é retornar o histórico de um Fornecedor e mesma está localizada dentro do `Controller Historico"`
+> O objetivo dessa Interface é retornar o histórico de um Fornecedor e mesma está localizada dentro do `Controller Historico`
 
 Método | Objetivo
 -------| --------
@@ -178,7 +178,7 @@ Método | Objetivo
 
 > ![Diagrama da Interface](images/i-historico-produto.png)
 
-> O objetivo dessa Interface é prover o histórico de um Produto e a mesma está localizada dentro do `Controller Historico"`
+> O objetivo dessa Interface é prover o histórico de um Produto e a mesma está localizada dentro do `Controller Historico`
 
 Método | Objetivo
 -------| --------
@@ -188,7 +188,7 @@ Método | Objetivo
 
 > ![Diagrama da Interface](images/i-historico-logistica.png)
 
-> O objetivo dessa Interface é prover o histórico de um parceiro Logístico e a mesma está localizada dentro do `Controller Historico"`
+> O objetivo dessa Interface é prover o histórico de um parceiro Logístico e a mesma está localizada dentro do `Controller Historico`
 
 Método | Objetivo
 -------| --------
