@@ -14,13 +14,13 @@ Projeto Final de conclusão da disciplina INF331 - Componentização e Reuso de 
 
 # Nível 1
 
-Apresente aqui o detalhamento do Nível 1 conforme detalhado na especificação com, no mínimo, as seguintes subseções:
+Segue aqui uma arquitetura geral dos componentes que compões o sistema de um market place com foco nos cenários de Gestão de Fornecedores:
 
 ## Diagrama Geral do Nível 1
 
-Apresente um diagrama conforme o modelo a seguir:
+Segue o diagrama do mesmo:
 
-> ![Modelo de diagrama no nível 1](images/coreografia.png)
+![Diagrama Nivel 1](./images/INF331_Nivel_1.jpg)
 
 ### Detalhamento da interação de componentes
 
@@ -38,6 +38,7 @@ Para cada componente será apresentado um documento conforme o modelo a seguir:
 ![Componente](diagrama-componente-mensagens.png)
 
 **Interfaces**
+
 > * Listagem das interfaces do componente.
 
 As interfaces listadas são detalhadas a seguir:
@@ -112,71 +113,136 @@ quantity | quantidade do item
 
 # Nível 2
 
-Apresente aqui o detalhamento do Nível 2 conforme detalhado na especificação com, no mínimo, as seguintes subseções:
+Considerando a arquitetura acima, optou-se por detalhar o componente `Historico` considerando suas interfaces `Historico` e `Pedido`
+
+Este componente tem por objetivo gerenciar as diversas informações geradas pelo sistema e que contribuem para o processo de avaliação do Fornecedor, além de auxiliar no processo de compra pelo Cliente. Dessa forma, ele monitora o barramento de comunicação do sistema acomulando informações relativas aos Pedidos, incluindo revisões do cliente sobre os elementos envolvidos neste e informações do componente de Logística relativas à preparação, envio, entrega e observações sobre a logística do Pedido.
+
+Esses dados são acessados via as Interfaces Histórico, BuscaHist e GerenciaHist buscando atender ao conjunto de atividades detalhado abaixo:
+
+![Diagrama de atividades - Historico](./images/flows_inf331_historico.png)
+
+O Diagrama abaixo apresenta maiores detalhes sobre os elementos envolvidos neste componente.
 
 ## Diagrama do Nível 2
 
-Apresente um diagrama conforme o modelo a seguir:
+<img src="images/historicos_subcomponentes_mvc.jpg" alt="Diagrama de subcomponetes - Historico" style="width:100%;height:100%" />
 
-> ![Modelo de diagrama no nível 2](images/diagrama-subcomponentes.png)
+## Componente `Historico`
 
-### Detalhamento da interação de componentes
+Este componente considera o seguinte fluxo de atividade em seus subcomponentes.
 
-O detalhamento deve seguir um formato de acordo com o exemplo a seguir:
+- Como visto no diagrama acima, o componente `Controla Historico` concentra os meios de comunicação com os demais elementos do sistema, sendo que ele implementa as interfaces:
 
-* O componente `Entrega Pedido Compra` assina no barramento mensagens de tópico "`pedido/+/entrega`" através da interface `Solicita Entrega`.
-  * Ao receber uma mensagem de tópico "`pedido/+/entrega`", dispara o início da entrega de um conjunto de produtos.
-* Os componentes `Solicita Estoque` e `Solicita Compra` se comunicam com componentes externos pelo barramento:
-  * Para consultar o estoque, o componente `Solicita Estoque` publica no barramento uma mensagem de tópico "`produto/<id>/estoque/consulta`" através da interface `Consulta Estoque` e assina mensagens de tópico "`produto/<id>/estoque/status`" através da interface `Posição Estoque` que retorna a disponibilidade do produto.
+  - `Historico`
+  - `Log`
+  - `BuscaHist`
+  - `Peidido`
 
-Para cada componente será apresentado um documento conforme o modelo a seguir:
+  Com isso, o componente `Historico` assina os seguintes tópicos
 
-## Componente `<Nome do Componente>`
+  1. **`log/*`**
+  2. **`pedido/*`**
+  3. **`buscahist/*`**
 
-> <Resumo do papel do componente e serviços que ele oferece.>
+- Ao receber uma mensagem com o tópico `/log/*` as seguintes ações são realizadas
 
-![Componente](images/diagrama-componente.png)
+  - O Componente `Controla Historico` utiliza a interface `Gerencia Hist Log` para acessar o componente `Historico Logistica`
+  - O Componente `Historico Logistica` utiliza a interface `Model` para acessar o controlador dos dados do sistema
+  - O Componente `Model Hist Lgisitica` realiza as manipulações necessárias sobre os dados da mensagem recebida e via a interface `Dataset`, persiste essas informações
+  - O Componente `Data Connector` gerencia a interface com o subsistema sendo usado para a persistência dos dados.
 
-**Interfaces**
-> * Listagem das interfaces do componente.
+- Ao receber uma mensage com o tópico `/pedido/*` as seguintes ações são realizadas
 
-As interfaces listadas são detalhadas a seguir:
+  - O Componente `Controla Historico` seleciona as informações de Cliente e utiliza a interface `Gerencia Hist Cliente` para acessar o componente `Histórico Cliente` e faz o mesmo procedimento com as informações de Fornecedor e Produto, utilizando os componentes `Historico Fornecedor`e `Historico Produto`.
+  - O Componente `Historico Cliente` utiliza a interface `Model` para acessar o controlador dos dados do sistema. O mesmo procedimento acontece com os componentes `Historico Fornecedor`e `Historico Produto` que também implementaram a interface `Model`.
+  - O Componente `Model Hist Cliente` realiza as manipulações necessárias sobre os dados da mensagem recebida e via a interface `Dataset`, persiste essas informações. O mesmo acontecendo nos componentes `Model Hist Fornecedor` e `Model Hist Produto`.
+  - O Componente `Data Connector` gerencia a interface com o subsistema sendo usado para a persistência dos dados.
+
+- Ao receber uma mensagem com o tópico `/buscahist/*` o componente `Controla Historico` entende que um conjunto de informações está sendo requisitado do mesmo. Vale ressaltar que essa mensagem vem identificada com um UUID, apresentando o seguinte formado: `/buscahist/{uuid}/*`.
+  Para o tratamento desta mensagem, as seguintes ações são realizadas.
+
+  - O componente `Controla Historico` identifica as solicitações presentes na mensagem, separando as buscas referentes a Cliente, Fornecedor, Produto e Losgística.
+  - O componente `Controla Historico` utiliza as interfaces:
+    - `Gerencia Hist Cliente` para enviar a solicitação de informações de histórico de Clientes.
+    - `Gerencia Hist Fornecedor` para enviar a solciitação de informações de histórico de Fornecedores.
+    - `Gerencia Hist Produto` para enviar a solicitação de informações de histórico de Produtos.
+    - `Gerencia Hist Logistica` para enviar a solicitação de informações de Logística
+  - Cada um dos seguintes componentes:
+    -  `Historico Fornecedor` utiliza a Interface `Model` para obter e tratar os dados do componente `Model Hist Fornecedor` e retornar a informação desejada ao componente `Controla Historico`
+    -  `Historico Cliente` utiliza a Interface `Model` para obter e tratar os dados do componente `Model Hist Cliente` e retornar a informação desejada ao componente `Controla Historico`
+    -  `Historico Produto` utiliza a Interface `Model` para obter e tratar os dados do componente `Model Hist Produto` e retornar a informação desejada ao componente `Controla Historico`
+    -  `Historico Logistica` utiliza a Interface `Model` para obter e tratar os dados do componente `Model Hist Logistica` e retornar a informação desejada ao componente `Controla Historico`
+  - O Componente `Controla Historico` organiza a resposta à solicitação recebida
+  - O componente `Controla Historico` realiza duas operações com essa informação
+    - Utilizando a interface `Historico`, escreve no tópico **`/hist/{uuid}`** uma mensagem em resposta à solicitação recebida com esse **{uuid}** contendo as informações organizadas acima
+    - Utilizando a interface `View Historico`, o componente `Controla View Historico` Iniciará o processo de exibição destes dados.
+      - O componente Controla View Histórico utiliza a interface `Gerencia View` para acessar o barramento interno do componente usado para a interface com os demais componentes utilizados na visualização das informações.
+        Estas. além disso, são repassadas pelo barramento utilizando os seguintes tópicos escritos pela interface `Gerencia View`.
+        - **`resumo/*`** : tópico lido pela interface `HistView` implementada no componente `View Histórico Resumo`, o qual realiza a exibição dos dados solicitados como um resumo das informações.
+        - **`log/*`** : tópico lido pela interface `HistView` implementada no componente `View Historico Logistica`, o qual apresenta os dados detalhados de eventos de "Logística" registrados no sistema para um determinado filtro informado na solicitação ao componente `Historico`
+        - **`fornecedor/*`** : tópico lido pela interface `HistView` implementada no componente `View Historico Fornecedor`, o qual apresenta os dados detalhados dos eventos registrados para os Fornecedores presentes nos detalhes da solicitação enviada ao componente `Historico`
+        -  **`cliente/*`** : tópico lido pela interface `HistView` implementada no componente `View Historico Cliente`, o qual apresenta os dados detalhados dos eventos registrados para os Clientes presentes nos detalhes da solicitação enviada ao componente `Historico`
+        - **`produto/`**:  tópico lido pela interface `HistView` implementada no componente `View Historico Produto`, o qual apresenta os dados detalhados dos eventos registrados para os Produtos presentes nos detalhes da solicitação enviada ao componente `Historico`
+
+  
+
+  Segue abaixo um detalhamento de algumas interfaces consideradas acima.
 
 ## Detalhamento das Interfaces
 
-### Interface `<nome da interface>`
 
-> ![Diagrama da Interface](images/diagrama-interface-itableproducer.png)
+### Interface `IControlaHistorico`
 
-> <Resumo do papel da interface.>
+![Diagrama da Interface](images/i-controla-historico.png)
 
-Método | Objetivo
--------| --------
-`<id do método>` | `<objetivo do método e descrição dos parâmetros>`
-
-## Exemplos:
-
-### Interface `ITableProducer`
-
-![Diagrama da Interface](images/diagrama-interface-itableproducer.png)
-
-Interface provida por qualquer fonte de dados que os forneça na forma de uma tabela.
+O objetivo dessa Interface é buscar o histórico seja ele de um Cliente, Fornecedor, Produto ou Logística e a mesma está localizada no `Controller Historico`
 
 Método | Objetivo
 -------| --------
-`requestAttributes` | Retorna um vetor com o nome de todos os atributos (colunas) da tabela.
-`requestInstances` | Retorna uma matriz em que cada linha representa uma instância e cada coluna o valor do respectivo atributo (a ordem dos atributos é a mesma daquela fornecida por `requestAttributes`.
+`getHistorico` | Retorna um objeto do tipo Historico que contém o histórico de um Cliente, Fornecedor, Produto ou Logística
 
-### Interface `IDataSetProperties`
+### Interface `IHistoricoCliente`
 
-![Diagrama da Interface](images/diagrama-interface-idatasetproperties.png)
+![Diagrama da Interface](images/i-historico-cliente.png)
 
-Define o recurso (usualmente o caminho para um arquivo em disco) que é a fonte de dados.
+O objetivo dessa Interface é retornar o histórico de um Cliente e a mesma está localizada dentro do `Controller Historico`
 
 Método | Objetivo
 -------| --------
-`getDataSource` | Retorna o caminho da fonte de dados.
-`setDataSource` | Define o caminho da fonte de dados, informado através do parâmetro `dataSource`.
+`getHistoricoCliente` | Retorna o histórico de um Cliente
+
+### Interface `IHistoricoFornecedor`
+
+
+
+![Diagrama da Interface](images/i-historico-fornecedor.png)
+
+O objetivo dessa Interface é retornar o histórico de um Fornecedor e mesma está localizada dentro do `Controller Historico`
+
+Método | Objetivo
+-------| --------
+`getHistoricoFornecedor` | Retorna o histórico de um Fornecedor
+
+### Interface `IHistoricoProduto`
+
+![Diagrama da Interface](images/i-historico-produto.png)
+
+O objetivo dessa Interface é prover o histórico de um Produto e a mesma está localizada dentro do `Controller Historico`
+
+Método | Objetivo
+-------| --------
+`getHistoricoProduto` | Retorna o histórico de um Produto
+
+### Interface `IHistoricoLogistica`
+
+![Diagrama da Interface](images/i-historico-logistica.png)
+
+O objetivo dessa Interface é prover o histórico de um parceiro Logístico e a mesma está localizada dentro do `Controller Historico`
+
+Método | Objetivo
+-------| --------
+`getHistoricoLogistica` | Retorna o histórico de um parceiro Logístico
+
 
 # Multiplas Interfaces
 
