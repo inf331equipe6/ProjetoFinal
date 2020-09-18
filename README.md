@@ -144,25 +144,56 @@ As interfaces listadas são detalhadas a seguir:
 
 ## Detalhamento das Interfaces
 
-### Interface `IHistoricoFornecedor`
-
-> ![Diagrama da Interface](images/diagrama-interface-historico-fornecedor.png)
-
-> O objetivo dessa Interface provida é recuperar o histórico do fornecedor
-
-Método | Objetivo
--------| --------
-`setHistoricoFornecedor` | `Persiste o histórico de um fornecedor`
-`requestHistoricoFornecedor` | `Retorna o histórico de um fornecedor` 
 ### Interface `IControlaHistorico`
 
-![Diagrama da Interface](images/diagrama-interface-controla-historico.png)
-	
-> O objetivo dessa Interface requerida é buscar o histórico do fornecedor
+![Diagrama da Interface](images/i-controla-historico.png)
+  
+> O objetivo dessa Interface requerida é buscar o histórico seja ele do tipo Cliente, Fornecedor, Produto ou Logística
+> A Interface está localizada no `Controller Historico`
 
 Método | Objetivo
 -------| --------
-`getHistoricoFornecedor` | Retorna um objeto do tipo HistoricoForn cotendo as informações do Fornecedor
+`getHistorico` | Retorna um objeto do tipo Historico cotendo as informações do Fornecedor
+
+### Interface `IHistoricoCliente`
+
+> ![Diagrama da Interface](images/i-historico-cliente.png)
+
+> O objetivo dessa Interface provida é retornar o histórico de um Cliente e está localizada dentro do `Controller Historico"`
+
+Método | Objetivo
+-------| --------
+`getHistoricoCliente` | `Retorna o histórico de um Cliente` 
+
+### Interface `IHistoricoFornecedor`
+
+> ![Diagrama da Interface](images/i-historico-fornecedor.png)
+
+> O objetivo dessa Interface provida é retornar o histórico do Fornecedor e está localizada dentro do `Controller Historico"`
+
+Método | Objetivo
+-------| --------
+`getHistoricoFornecedor` | `Retorna o histórico de um Fornecedor` 
+
+### Interface `IHistoricoProduto`
+
+> ![Diagrama da Interface](images/i-historico-produto.png)
+
+> O objetivo dessa Interface provida é prover o histórico de um Produto e está localizada dentro do `Controller Historico"`
+
+Método | Objetivo
+-------| --------
+`getHistoricoProduto` | `Retorna o histórico de um Produto` 
+
+### Interface `IHistoricoLogistica`
+
+> ![Diagrama da Interface](images/i-historico-logistica.png)
+
+> O objetivo dessa Interface provida é prover o histórico de um parceiro Logístico e está localizada dentro do `Controller Historico"`
+
+Método | Objetivo
+-------| --------
+`getHistoricoLogistica` | `Retorna o histórico de um parceiro Logístico` 
 
 # Multiplas Interfaces
 
