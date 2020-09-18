@@ -148,18 +148,17 @@ As interfaces listadas são detalhadas a seguir:
 
 ![Diagrama da Interface](images/i-controla-historico.png)
   
-> O objetivo dessa Interface requerida é buscar o histórico seja ele do tipo Cliente, Fornecedor, Produto ou Logística
-> A Interface está localizada no `Controller Historico`
+> O objetivo dessa Interface requerida é buscar o histórico seja ele do tipo Cliente, Fornecedor, Produto ou Logística e a mesma está localizada no `Controller Historico`
 
 Método | Objetivo
 -------| --------
-`getHistorico` | Retorna um objeto do tipo Historico cotendo as informações do Fornecedor
+`getHistorico` | Retorna um objeto do tipo Historico que contém o histórico que pode ser de um Cliente, Fornecedor, Produto ou Logística
 
 ### Interface `IHistoricoCliente`
 
 > ![Diagrama da Interface](images/i-historico-cliente.png)
 
-> O objetivo dessa Interface provida é retornar o histórico de um Cliente e está localizada dentro do `Controller Historico"`
+> O objetivo dessa Interface provida é retornar o histórico de um Cliente e a mesma está localizada dentro do `Controller Historico"`
 
 Método | Objetivo
 -------| --------
@@ -169,7 +168,7 @@ Método | Objetivo
 
 > ![Diagrama da Interface](images/i-historico-fornecedor.png)
 
-> O objetivo dessa Interface provida é retornar o histórico do Fornecedor e está localizada dentro do `Controller Historico"`
+> O objetivo dessa Interface provida é retornar o histórico do Fornecedor e mesma está localizada dentro do `Controller Historico"`
 
 Método | Objetivo
 -------| --------
@@ -179,7 +178,7 @@ Método | Objetivo
 
 > ![Diagrama da Interface](images/i-historico-produto.png)
 
-> O objetivo dessa Interface provida é prover o histórico de um Produto e está localizada dentro do `Controller Historico"`
+> O objetivo dessa Interface provida é prover o histórico de um Produto e a mesma está localizada dentro do `Controller Historico"`
 
 Método | Objetivo
 -------| --------
@@ -189,7 +188,7 @@ Método | Objetivo
 
 > ![Diagrama da Interface](images/i-historico-logistica.png)
 
-> O objetivo dessa Interface provida é prover o histórico de um parceiro Logístico e está localizada dentro do `Controller Historico"`
+> O objetivo dessa Interface provida é prover o histórico de um parceiro Logístico e a mesma está localizada dentro do `Controller Historico"`
 
 Método | Objetivo
 -------| --------
