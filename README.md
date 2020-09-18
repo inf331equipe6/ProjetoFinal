@@ -166,7 +166,7 @@ Classes que representam objetos JSON associados às mensagens da interface:
     "client": {
         "id": "<String>"
     },
-    "status": "CREATED|FINALIZED|CANCELLED"
+    "status": "CREATED|FINALIZED|CANCELLED",
     "supplier": {
         "id": "<String>"
     }
