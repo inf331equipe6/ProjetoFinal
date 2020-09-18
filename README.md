@@ -74,15 +74,18 @@ Classes que representam objetos JSON associados às mensagens da interface:
 
 ~~~json
 {
-    "leilao": {
+    "auction": {
         "id": "<String>"
     },
-    "lance": {
-        "fornecedor": {
+    "offer": {
+        "supplier": {
             "id": "<String>"
         },
-        "valor": "<BigDecimal>",
-        "datahora": "<DateTime>"
+        "amount": "<BigDecimal>",
+        "paymentMethod": {
+            "type": "CREDIT_CART|BOLETO|DEBIT"
+        }
+        "occurred_time": "<DateTime>"
     }
 }
 ~~~
@@ -121,6 +124,33 @@ Classes que representam objetos JSON associados às mensagens da interface:
 ~~~json
 {
     "id": "<String>"
+}
+~~~
+
+**Tópico**: `/lance/{id_leilao}/oferta`
+
+Classes que representam objetos JSON associados às mensagens da interface:
+
+![Diagrama Classes REST](images/diagrama-classes-inicio-leilao.png)
+
+~~~json
+{
+    "id": "<String>",
+    "product": {
+        "id": "<String>"
+    },
+    "client": {
+        "id": "<String>"
+    },
+    "offer": {
+        "amount": "<BigDecimal>",
+        "paymentMethod": {
+            "type": "CREDIT_CART|BOLETO|DEBIT"
+        }
+    },
+    "supplier": {
+        "id": "<String>"
+    }
 }
 ~~~
 
