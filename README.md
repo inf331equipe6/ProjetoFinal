@@ -162,7 +162,7 @@ Método | Objetivo
 
 Método | Objetivo
 -------| --------
-`getHistoricoCliente` | `Retorna o histórico de um Cliente` 
+`getHistoricoCliente` | Retorna o histórico de um Cliente
 
 ### Interface `IHistoricoFornecedor`
 
@@ -172,7 +172,7 @@ Método | Objetivo
 
 Método | Objetivo
 -------| --------
-`getHistoricoFornecedor` | `Retorna o histórico de um Fornecedor` 
+`getHistoricoFornecedor` | Retorna o histórico de um Fornecedor
 
 ### Interface `IHistoricoProduto`
 
@@ -182,7 +182,7 @@ Método | Objetivo
 
 Método | Objetivo
 -------| --------
-`getHistoricoProduto` | `Retorna o histórico de um Produto` 
+`getHistoricoProduto` | Retorna o histórico de um Produto
 
 ### Interface `IHistoricoLogistica`
 
@@ -192,7 +192,7 @@ Método | Objetivo
 
 Método | Objetivo
 -------| --------
-`getHistoricoLogistica` | `Retorna o histórico de um parceiro Logístico` 
+`getHistoricoLogistica` | Retorna o histórico de um parceiro Logístico
 
 # Multiplas Interfaces
 
