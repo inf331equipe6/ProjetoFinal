@@ -96,7 +96,8 @@ Classes que representam objetos JSON associados às mensagens da interface:
 
 > Esta interface tem como objetivo e responsabilidade fornecer meios para iniciar um leilão e dar lances futuros no mesmo.
 
-**Tópico**: `/lance/leilao/inicio`
+**Tópico**: `/lance/request`
+> Cria um leilão com base nas informações enviadas
 
 Classes que representam objetos JSON associados às mensagens da interface:
 
@@ -114,20 +115,15 @@ Classes que representam objetos JSON associados às mensagens da interface:
 }
 ~~~
 
+**Tópico**: `/lance/{id_leilao}/inicio`
+> Inicia um leilão
 
-**Tópico**: `/lance/leilao/finaliza`
 
-Classes que representam objetos JSON associados às mensagens da interface:
-
-![Diagrama Classes REST](images/diagrama-classes-inicio-leilao.png)
-
-~~~json
-{
-    "id": "<String>"
-}
-~~~
+**Tópico**: `/lance/{id_leilao}/finaliza`
+> Finaliza um leilão.
 
 **Tópico**: `/lance/{id_leilao}/oferta`
+> Realizar uma oferta em um leilão.
 
 Classes que representam objetos JSON associados às mensagens da interface:
 
@@ -195,6 +191,24 @@ Classes que representam objetos JSON associados às mensagens da interface:
             "id": "<String>"
         }
     ]
+}
+~~~
+
+**Tópico**: `/lance/{id_leilao}/compra`
+
+Classes que representam objetos JSON associados às mensagens da interface:
+
+![Diagrama Classes REST](images/diagrama-classes-inicio-leilao.png)
+
+~~~json
+{
+    "id": "<String>",
+    "product": {
+        "id": "<String>"
+    },
+    "client": {
+        "id": "<String>"
+    }
 }
 ~~~
 
