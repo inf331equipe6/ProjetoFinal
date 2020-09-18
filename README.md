@@ -144,39 +144,25 @@ As interfaces listadas são detalhadas a seguir:
 
 ## Detalhamento das Interfaces
 
-### Interface `<nome da interface>`
+### Interface `IHistoricoFornecedor`
 
-> ![Diagrama da Interface](images/diagrama-interface-itableproducer.png)
+> ![Diagrama da Interface](images/diagrama-interface-historico-fornecedor.png)
 
-> <Resumo do papel da interface.>
-
-Método | Objetivo
--------| --------
-`<id do método>` | `<objetivo do método e descrição dos parâmetros>`
-
-## Exemplos:
-
-### Interface `ITableProducer`
-
-![Diagrama da Interface](images/diagrama-interface-itableproducer.png)
-
-Interface provida por qualquer fonte de dados que os forneça na forma de uma tabela.
+> O objetivo dessa Interface provida é recuperar o histórico do fornecedor
 
 Método | Objetivo
 -------| --------
-`requestAttributes` | Retorna um vetor com o nome de todos os atributos (colunas) da tabela.
-`requestInstances` | Retorna uma matriz em que cada linha representa uma instância e cada coluna o valor do respectivo atributo (a ordem dos atributos é a mesma daquela fornecida por `requestAttributes`.
+`setHistoricoFornecedor` | `Persiste o histórico de um fornecedor`
+`requestHistoricoFornecedor` | `Retorna o histórico de um fornecedor` 
+### Interface `IControlaHistorico`
 
-### Interface `IDataSetProperties`
-
-![Diagrama da Interface](images/diagrama-interface-idatasetproperties.png)
-
-Define o recurso (usualmente o caminho para um arquivo em disco) que é a fonte de dados.
+![Diagrama da Interface](images/diagrama-interface-controla-historico.png)
+	
+> O objetivo dessa Interface requerida é buscar o histórico do fornecedor
 
 Método | Objetivo
 -------| --------
-`getDataSource` | Retorna o caminho da fonte de dados.
-`setDataSource` | Define o caminho da fonte de dados, informado através do parâmetro `dataSource`.
+`getHistoricoFornecedor` | Retorna um objeto do tipo HistoricoForn cotendo as informações do Fornecedor
 
 # Multiplas Interfaces
 
