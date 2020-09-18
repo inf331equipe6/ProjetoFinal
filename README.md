@@ -26,8 +26,28 @@ Apresente um diagrama conforme o modelo a seguir:
 
 O detalhamento deve seguir um formato de acordo com o exemplo a seguir:
 
-* O `componente X` inicia o leilão publicando no barramento a mensagem de tópico "`leilão/<número>/início`" através da interface `Gerente Leilão`, iniciando um leilão.
-* O `componente Y` assina no barramento mensagens de tópico "`leilão/+/início`" através da interface `Participa Leilão`. Quando recebe uma mensagem…
+1. O `componente MarketPlace` inscreve-se no tópico `/lance/*` utilizando a interface **Lance**;
+1. O `componente Fornecedor` inscreve no tópico `/lance/leilao/inicio` utilizando a interface **Lance**;
+1. O `componente Pedido` inscreve no tópico `/lance/*/finaliza` utilizando a interface **Lance**;
+1. O `componente Cliente` escreve uma mensagem no tópico `/lance/request` utilizando a interface **Lance**;
+1. O `componente MarketPlace` subscreve-se no tópico `/lance/request` através da interface `Leilao` para ouvir os pedidos de abertura de leilão e realiza os seguintes passos:
+    - Escreve uma mensagem para o tópico `/lance/leilao/{id_leilao}/inicio` utilizando a interface **Lance**;
+    - Subscreve-se no tópico `/leilao/{id_leilao‘/*` utilizando a interface **Leilao**;
+1. O `componente Fornecedor`, por meio da interface **Leilao**, subscreve-se no tópico `/leilao/*` para encontrar leilões que ele possua algum produto:
+    - Caso o mesmo possua um produto, ele escreve no tópico `/lance/[id_leilao]/*`;
+1. O `componente Fornecedor` pode escrever no tópico `/lance/{id_leilao‘/oferta` a fim de realizar uma oferta para o leilão;
+1. O `componente Marketplace` escuta o tópico `/lance/{id_leilao‘/oferta` e realizar os seguintes passos:
+    - Identificar se o leilão ainda é válido através da propriedade `status`;
+    - Realiza o ranqueamento da proposta, utilizando o timestamp informado como critério de desempate das ofertas;
+    - Informa o status do ranking enviado, através da interface **GerenciaLeilao** no tópico `/lance/[id_leilao/ranking`;
+1. O `componente Cliente` escuta o tópico `/leilao/{id_leilao}/ranking` utilizando a interface **Leilao**;
+1. O `componente MarketPlace` escreve uma mensagem no tópico `/leilao/{id_leilao}/finaliza` utilizando a interface **GerenciaLeilao**;
+1. O `componente Fornecedor` por meio da interfacee **Leilao**, escuta o tópico `/leilao/{id_leilao}/finaliza` e finaliza sua inscrição;
+1. O `componente Cliente` por meio da interfacee **Leilao**, escuta o tópico `/leilao/{id_leilao}/finaliza` e finaliza sua inscrição;
+1. O `componente Pedido` por meio da interfacee **Leilao**, escuta o tópico `/leilao/{id_leilao}/finaliza` e executa os seguintes passos:
+    - Verifica se o leilao terminou com uma oferta válida escolhida;
+    - Caso sim, gera um novo pedido deste leilão;
+    - Envia uma notificação para o Fornecedor e Cliente.
 
 Para cada componente será apresentado um documento conforme o modelo a seguir:
 
