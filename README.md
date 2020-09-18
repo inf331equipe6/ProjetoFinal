@@ -58,7 +58,9 @@ Para cada componente será apresentado um documento conforme o modelo a seguir:
 ![Componente](diagrama-componente-mensagens.png)
 
 **Interfaces**
-> * Listagem das interfaces do componente.
+* Leilao
+* Lance
+* GerenciaLeilao
 
 As interfaces listadas são detalhadas a seguir:
 
