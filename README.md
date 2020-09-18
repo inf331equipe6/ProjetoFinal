@@ -154,51 +154,49 @@ Classes que representam objetos JSON associados às mensagens da interface:
 }
 ~~~
 
-## Exemplo
 
-### Interface DadosPedido
-
-Interface para envio de dados do pedido com itens associados.
-
-**Tópico**: `pedido/{id}/dados`
+**Tópico**: `/leilao/{id_leilao}/ofertas`
 
 Classes que representam objetos JSON associados às mensagens da interface:
 
-![Diagrama Classes REST](images/diagrama-classes-rest.png)
+![Diagrama Classes REST](images/diagrama-classes-inicio-leilao.png)
 
 ~~~json
 {
-  "number": 16,
-  "duoDate": "2009-10-04",
-  "total": 1937.01,
-  "items": {
-    "item": {
-       "itemid": "1245",
-       "quantity": 1
+    "id": "<String>",
+    "product": {
+        "id": "<String>"
     },
-    "item": {
-       "itemid": "1321",
-       "quantity": 1
+    "client": {
+        "id": "<String>"
+    },
+    "status": "CREATED|FINALIZED|CANCELLED"
+    "supplier": {
+        "id": "<String>"
     }
-  }  
 }
 ~~~
 
-Detalhamento da mensagem JSON:
+**Tópico**: `/leilao/{id_leilao}/ranking`
 
-**Order**
-Atributo | Descrição
--------| --------
-number | número do pedido
-duoDate | data de vencimento
-total | valor total do pedido
-items | itens do pedido
+Classes que representam objetos JSON associados às mensagens da interface:
 
-**Item**
-Atributo | Descrição
--------| --------
-itemid | identificador do item
-quantity | quantidade do item
+![Diagrama Classes REST](images/diagrama-classes-inicio-leilao.png)
+
+~~~json
+{
+    "id": "<String>",
+    "offers": [
+        "amount": "<BigDecimal>",
+        "paymentMethod": {
+            "type": "CREDIT_CART|BOLETO|DEBIT"
+        },
+        "supplier": {
+            "id": "<String>"
+        }
+    ]
+}
+~~~
 
 # Nível 2
 
