@@ -84,7 +84,7 @@ Classes que representam objetos JSON associados às mensagens da interface:
         "amount": "<BigDecimal>",
         "paymentMethod": {
             "type": "CREDIT_CART|BOLETO|DEBIT"
-        }
+        },
         "occurred_time": "<DateTime>"
     }
 }
