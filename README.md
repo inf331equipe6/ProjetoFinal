@@ -256,6 +256,7 @@ Método | Objetivo
 
   ![Abstract Factory - View Historico Produto](images/multiplas_interfaces_factory.jpg)
 
-> Escreva um texto detalhando como seus componentes  podem ser preparados para que seja possível trocar de interface apenas trocando o componente View e mantendo o Model e Controller.
->
-> É recomendado a inserção de, pelo menos, um diagrama que deve ser descrito no texto. O formato do diagrama é livre e deve ilustrar a arquitetura proposta.
+
+
+​	Com estas duas abordagens tratamos o possibilidade de variação dos componentes encapsulados no módulo `View`
+
