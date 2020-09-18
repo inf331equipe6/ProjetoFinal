@@ -66,12 +66,6 @@ Classes que representam objetos JSON associados às mensagens da interface:
 }
 ~~~
 
-Detalhamento da mensagem JSON:
-
-Atributo | Descrição
--------| --------
-`<nome do atributo>` | `<objetivo do atributo>`
-
 ## Exemplo
 
 ### Interface DadosPedido
