@@ -56,7 +56,7 @@ Classes que representam objetos JSON associados às mensagens da interface:
 
 ~~~json
 {
-    "id": "<String>"
+    "id": "<String>",
     "product": {
         "id": "<String>"
     }
