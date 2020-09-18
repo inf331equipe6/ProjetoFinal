@@ -176,12 +176,14 @@ Classes que representam objetos JSON associados às mensagens da interface:
 {
     "id": "<String>",
     "offers": [
-        "amount": "<BigDecimal>",
-        "paymentMethod": {
-            "type": "CREDIT_CART|BOLETO|DEBIT"
-        },
-        "supplier": {
-            "id": "<String>"
+        {
+            "amount": "<BigDecimal>",
+            "paymentMethod": {
+                "type": "CREDIT_CART|BOLETO|DEBIT"
+            },
+            "supplier": {
+                "id": "<String>"
+            }
         }
     ]
 }
