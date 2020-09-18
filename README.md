@@ -31,7 +31,7 @@ O detalhamento deve seguir um formato de acordo com o exemplo a seguir:
 
 Para cada componente será apresentado um documento conforme o modelo a seguir:
 
-## Componente `<Nome do Componente>`
+## Componente `Marketplace`
 
 > <Resumo do papel do componente e serviços que ele oferece.>
 
@@ -44,18 +44,26 @@ As interfaces listadas são detalhadas a seguir:
 
 ## Detalhamento das Interfaces
 
-### Interface `<nome da interface>`
+### Interface `Leilao`
 
-> Resumo do papel da interface.
+> Esta interface tem como objetivo e responsabilidade fornecer meios para iniciar ou finalizar um leilão.
 
-**Tópico**: `<tópico que a respectiva interface assina ou publica>`
+**Tópico**: `/leilao/inicio`
 
 Classes que representam objetos JSON associados às mensagens da interface:
 
-![Diagrama Classes REST](images/diagrama-classes-rest.png)
+![Diagrama Classes REST](images/diagrama-classes-inicio-leilao.png)
 
 ~~~json
-<Formato da mensagem JSON associada ao objeto enviado/recebido por essa interface.>
+{
+    "id": "<String>"
+    "product": {
+        "id": "<String>"
+    }
+    "client": {
+        "id": "<String>"
+    }
+}
 ~~~
 
 Detalhamento da mensagem JSON:
