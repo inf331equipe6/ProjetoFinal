@@ -66,6 +66,64 @@ Classes que representam objetos JSON associados às mensagens da interface:
 }
 ~~~
 
+**Tópico**: `/leilao/{id_leilao}/lances`
+
+Classes que representam objetos JSON associados às mensagens da interface:
+
+![Diagrama Classes REST](images/diagrama-classes-inicio-leilao.png)
+
+~~~json
+{
+    "leilao": {
+        "id": "<String>"
+    },
+    "lance": {
+        "fornecedor": {
+            "id": "<String>"
+        },
+        "valor": "<BigDecimal>",
+        "datahora": "<DateTime>"
+    }
+}
+~~~
+
+
+
+### Interface `Lance`
+
+> Esta interface tem como objetivo e responsabilidade fornecer meios para iniciar um leilão e dar lances futuros no mesmo.
+
+**Tópico**: `/lance/leilao/inicio`
+
+Classes que representam objetos JSON associados às mensagens da interface:
+
+![Diagrama Classes REST](images/diagrama-classes-inicio-leilao.png)
+
+~~~json
+{
+    "id": "<String>",
+    "product": {
+        "id": "<String>"
+    },
+    "client": {
+        "id": "<String>"
+    }
+}
+~~~
+
+
+**Tópico**: `/lance/leilao/finaliza`
+
+Classes que representam objetos JSON associados às mensagens da interface:
+
+![Diagrama Classes REST](images/diagrama-classes-inicio-leilao.png)
+
+~~~json
+{
+    "id": "<String>"
+}
+~~~
+
 ## Exemplo
 
 ### Interface DadosPedido
