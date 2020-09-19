@@ -74,7 +74,7 @@ As interfaces listadas são detalhadas a seguir:
 
 Classes que representam objetos JSON associados às mensagens da interface:
 
-![Diagrama Classes REST](images/diagrama-classes-inicio-leilao.png)
+![Diagrama Classes REST](images/diagrama-classes-lances.png)
 
 ~~~json
 {
@@ -105,7 +105,7 @@ Classes que representam objetos JSON associados às mensagens da interface:
 
 Classes que representam objetos JSON associados às mensagens da interface:
 
-![Diagrama Classes REST](images/diagrama-classes-inicio-leilao.png)
+![Diagrama Classes REST](images/diagrama-classes-criar-leilao.png)
 
 ~~~json
 {
@@ -119,12 +119,12 @@ Classes que representam objetos JSON associados às mensagens da interface:
 }
 ~~~
 
-**Tópico**: `/lance/{id_leilao}/oferta`
+**Tópico**: `/lance/{id_leilao}/ofertas`
 > Realizar uma oferta em um leilão.
 
 Classes que representam objetos JSON associados às mensagens da interface:
 
-![Diagrama Classes REST](images/diagrama-classes-inicio-leilao.png)
+![Diagrama Classes REST](images/diagrama-classes-ofertas.png)
 
 ~~~json
 {
@@ -139,20 +139,20 @@ Classes que representam objetos JSON associados às mensagens da interface:
         "amount": "<BigDecimal>",
         "paymentMethod": {
             "type": "CREDIT_CART|BOLETO|DEBIT"
+        },
+        "supplier": {
+            "id": "<String>"
         }
-    },
-    "supplier": {
-        "id": "<String>"
     }
 }
 ~~~
 
 
-**Tópico**: `/leilao/{id_leilao}/ofertas`
+**Tópico**: `/leilao/{id_leilao}/oferta`
 
 Classes que representam objetos JSON associados às mensagens da interface:
 
-![Diagrama Classes REST](images/diagrama-classes-inicio-leilao.png)
+![Diagrama Classes REST](images/diagrama-classes-oferta.png)
 
 ~~~json
 {
@@ -163,10 +163,7 @@ Classes que representam objetos JSON associados às mensagens da interface:
     "client": {
         "id": "<String>"
     },
-    "status": "CREATED|FINALIZED|CANCELLED",
-    "supplier": {
-        "id": "<String>"
-    }
+    "status": "CREATED|FINALIZED|CANCELLED"
 }
 ~~~
 
@@ -174,7 +171,7 @@ Classes que representam objetos JSON associados às mensagens da interface:
 
 Classes que representam objetos JSON associados às mensagens da interface:
 
-![Diagrama Classes REST](images/diagrama-classes-inicio-leilao.png)
+![Diagrama Classes REST](images/diagrama-classes-ranking.png)
 
 ~~~json
 {
@@ -195,21 +192,7 @@ Classes que representam objetos JSON associados às mensagens da interface:
 
 **Tópico**: `/lance/{id_leilao}/compra`
 
-Classes que representam objetos JSON associados às mensagens da interface:
-
-![Diagrama Classes REST](images/diagrama-classes-inicio-leilao.png)
-
-~~~json
-{
-    "id": "<String>",
-    "product": {
-        "id": "<String>"
-    },
-    "client": {
-        "id": "<String>"
-    }
-}
-~~~
+Finalizar a compra de um leilão.
 
 ### Interface `GerenciaLeilao`
 
@@ -221,34 +204,6 @@ Classes que representam objetos JSON associados às mensagens da interface:
 
 **Tópico**: `/lance/{id_leilao}/finaliza`
 > Finaliza um leilão.
-
-
-Classes que representam objetos JSON associados às mensagens da interface:
-
-![Diagrama Classes REST](images/diagrama-classes-inicio-leilao.png)
-
-~~~json
-{
-    "id": "<String>",
-    "product": {
-        "id": "<String>"
-    },
-    "client": {
-        "id": "<String>"
-    },
-    "offer": {
-        "id": "<String>",
-        "amount": "<BigDecimal>",
-        "paymentMethod": {
-            "type": "CREDIT_CART|BOLETO|DEBIT"
-        }
-    },
-    "supplier": {
-        "id": "<String>"
-    }
-}
-~~~
-
 
 
 # Nível 2
