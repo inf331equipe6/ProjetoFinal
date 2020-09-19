@@ -1,7 +1,7 @@
 # Projeto Final
 Projeto Final de conclusão da disciplina INF331 - Componentização e Reuso de Software: Conceitos e Práticas (2020)
 
-# Projeto `<Título>`
+# Projeto `6MKT`
 
 # Equipe
 *   Agner Esteves Ballejo
