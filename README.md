@@ -1,9 +1,10 @@
 # Projeto Final
 Projeto Final de conclusão da disciplina INF331 - Componentização e Reuso de Software: Conceitos e Práticas (2020)
 
-# Projeto `<Título>`
+# Projeto `6MKT`
 
 # Equipe
+
 *   Agner Esteves Ballejo
 *   Ian Poli Tavares
 *   José Eduardo Porte
@@ -26,90 +27,181 @@ Segue o diagrama do mesmo:
 
 O detalhamento deve seguir um formato de acordo com o exemplo a seguir:
 
-* O `componente X` inicia o leilão publicando no barramento a mensagem de tópico "`leilão/<número>/início`" através da interface `Gerente Leilão`, iniciando um leilão.
-* O `componente Y` assina no barramento mensagens de tópico "`leilão/+/início`" através da interface `Participa Leilão`. Quando recebe uma mensagem…
+1. O `componente MarketPlace` inscreve-se no tópico `/lance/*` utilizando a interface **Lance**;
+1. O `componente Fornecedor` inscreve no tópico `/lance/leilao/inicio` utilizando a interface **Lance**;
+1. O `componente Pedido` inscreve no tópico `/lance/*/finaliza` utilizando a interface **Lance**;
+1. O `componente Cliente` escreve uma mensagem no tópico `/lance/request` utilizando a interface **Lance**;
+1. O `componente MarketPlace` subscreve-se no tópico `/lance/request` através da interface `Leilao` para ouvir os pedidos de abertura de leilão e realiza os seguintes passos:
+   - Escreve uma mensagem para o tópico `/lance/leilao/{id_leilao}/inicio` utilizando a interface **Lance**;
+   - Subscreve-se no tópico `/leilao/{id_leilao‘/*` utilizando a interface **Leilao**;
+1. O `componente Fornecedor`, por meio da interface **Leilao**, subscreve-se no tópico `/leilao/*` para encontrar leilões que ele possua algum produto:
+   - Caso o mesmo possua um produto, ele escreve no tópico `/lance/[id_leilao]/*`;
+1. O `componente Fornecedor` pode escrever no tópico `/lance/{id_leilao‘/oferta` a fim de realizar uma oferta para o leilão;
+1. O `componente Marketplace` escuta o tópico `/lance/{id_leilao‘/oferta` e realizar os seguintes passos:
+   - Identificar se o leilão ainda é válido através da propriedade `status`;
+   - Realiza o ranqueamento da proposta, utilizando o timestamp informado como critério de desempate das ofertas;
+   - Informa o status do ranking enviado, através da interface **GerenciaLeilao** no tópico `/lance/[id_leilao/ranking`;
+1. O `componente Cliente` escuta o tópico `/leilao/{id_leilao}/ranking` utilizando a interface **Leilao**;
+1. O `componente MarketPlace` escreve uma mensagem no tópico `/leilao/{id_leilao}/finaliza` utilizando a interface **GerenciaLeilao**;
+1. O `componente Fornecedor` por meio da interfacee **Leilao**, escuta o tópico `/leilao/{id_leilao}/finaliza` e finaliza sua inscrição;
+1. O `componente Cliente` por meio da interfacee **Leilao**, escuta o tópico `/leilao/{id_leilao}/finaliza` e finaliza sua inscrição;
+1. O `componente Pedido` por meio da interfacee **Leilao**, escuta o tópico `/leilao/{id_leilao}/finaliza` e executa os seguintes passos:
+   - Verifica se o leilao terminou com uma oferta válida escolhida;
+   - Caso sim, gera um novo pedido deste leilão;
+   - Envia uma notificação para o Fornecedor e Cliente.
 
-Para cada componente será apresentado um documento conforme o modelo a seguir:
+A seguir serão mostradas com mais detalhes as mensagens utilizadas acima:
 
-## Componente `<Nome do Componente>`
+## Componente `Marketplace`
 
-> <Resumo do papel do componente e serviços que ele oferece.>
+​	Este componete foi inserido aqui, no detalhamento do nível 1, visto a sua importância no cenário acima e na operação do MarketPlace como um todo.
+Sua interface `Gerência de Pgto` representa a comunicação da platforma com os sistemas externos para o controle de pagamento do pedido realizado na plataforma. Além disso, sua Interface `Gerencia de Leilao` é a responsável pelo controle dos lances e do processo de compra após a finalização do leilão, além de controlar quais seriam as estatítcas avaliadas pelo sistema e possibilitar o acesso dessas informações aos gestores da platforma via a interface `Analytics`.
 
-![Componente](diagrama-componente-mensagens.png)
+​	Dessa forma, vemos que os demais componetes do sistema acabam, de alguma forma conectados à ele, transformando-o no principal elemento do sistema.
 
-**Interfaces**
-
-> * Listagem das interfaces do componente.
-
-As interfaces listadas são detalhadas a seguir:
+![Componente MarketPlace](images/componente_marketplace.jpg)
 
 ## Detalhamento das Interfaces
 
-### Interface `<nome da interface>`
+### Interface `Leilao`
 
-> Resumo do papel da interface.
+> Esta interface tem como objetivo e responsabilidade fornecer meios para iniciar ou finalizar um leilão.
 
-**Tópico**: `<tópico que a respectiva interface assina ou publica>`
-
-Classes que representam objetos JSON associados às mensagens da interface:
-
-![Diagrama Classes REST](images/diagrama-classes-rest.png)
-
-~~~json
-<Formato da mensagem JSON associada ao objeto enviado/recebido por essa interface.>
-~~~
-
-Detalhamento da mensagem JSON:
-
-Atributo | Descrição
--------| --------
-`<nome do atributo>` | `<objetivo do atributo>`
-
-## Exemplo
-
-### Interface DadosPedido
-
-Interface para envio de dados do pedido com itens associados.
-
-**Tópico**: `pedido/{id}/dados`
+**Tópico**: `/leilao/{id_leilao}/lances`
 
 Classes que representam objetos JSON associados às mensagens da interface:
 
-![Diagrama Classes REST](images/diagrama-classes-rest.png)
+![Diagrama Classes REST](images/diagrama-classes-lances.png)
 
 ~~~json
 {
-  "number": 16,
-  "duoDate": "2009-10-04",
-  "total": 1937.01,
-  "items": {
-    "item": {
-       "itemid": "1245",
-       "quantity": 1
+    "auction": {
+        "id": "<String>"
     },
-    "item": {
-       "itemid": "1321",
-       "quantity": 1
+    "offer": {
+        "supplier": {
+            "id": "<String>"
+        },
+        "amount": "<BigDecimal>",
+        "paymentMethod": {
+            "type": "CREDIT_CART|BOLETO|DEBIT"
+        },
+        "occurred_time": "<DateTime>"
     }
-  }  
 }
 ~~~
 
-Detalhamento da mensagem JSON:
 
-**Order**
-Atributo | Descrição
--------| --------
-number | número do pedido
-duoDate | data de vencimento
-total | valor total do pedido
-items | itens do pedido
 
-**Item**
-Atributo | Descrição
--------| --------
-itemid | identificador do item
-quantity | quantidade do item
+### Interface `Lance`
+
+> Esta interface tem como objetivo e responsabilidade fornecer meios para iniciar um leilão e dar lances futuros no mesmo.
+
+**Tópico**: `/lance/request`
+> Cria um leilão com base nas informações enviadas
+
+Classes que representam objetos JSON associados às mensagens da interface:
+
+![Diagrama Classes REST](images/diagrama-classes-criar-leilao.png)
+
+~~~json
+{
+    "id": "<String>",
+    "product": {
+        "id": "<String>"
+    },
+    "client": {
+        "id": "<String>"
+    }
+}
+~~~
+
+**Tópico**: `/lance/{id_leilao}/ofertas`
+> Realizar uma oferta em um leilão.
+
+Classes que representam objetos JSON associados às mensagens da interface:
+
+![Diagrama Classes REST](images/diagrama-classes-ofertas.png)
+
+~~~json
+{
+    "id": "<String>",
+    "product": {
+        "id": "<String>"
+    },
+    "client": {
+        "id": "<String>"
+    },
+    "offer": {
+        "amount": "<BigDecimal>",
+        "paymentMethod": {
+            "type": "CREDIT_CART|BOLETO|DEBIT"
+        },
+        "supplier": {
+            "id": "<String>"
+        }
+    }
+}
+~~~
+
+
+**Tópico**: `/leilao/{id_leilao}/oferta`
+
+Classes que representam objetos JSON associados às mensagens da interface:
+
+![Diagrama Classes REST](images/diagrama-classes-oferta.png)
+
+~~~json
+{
+    "id": "<String>",
+    "product": {
+        "id": "<String>"
+    },
+    "client": {
+        "id": "<String>"
+    },
+    "status": "CREATED|FINALIZED|CANCELLED"
+}
+~~~
+
+**Tópico**: `/leilao/{id_leilao}/ranking`
+
+Classes que representam objetos JSON associados às mensagens da interface:
+
+![Diagrama Classes REST](images/diagrama-classes-ranking.png)
+
+~~~json
+{
+    "id": "<String>",
+    "offers": [
+        {
+            "amount": "<BigDecimal>",
+            "paymentMethod": {
+                "type": "CREDIT_CART|BOLETO|DEBIT"
+            },
+            "supplier": {
+                "id": "<String>"
+            }
+        }
+    ]
+}
+~~~
+
+**Tópico**: `/lance/{id_leilao}/compra`
+
+Finalizar a compra de um leilão.
+
+### Interface `GerenciaLeilao`
+
+Esta interface tem como objetivo e responsabilidade fornecer meios para iniciar um leilão e dar lances futuros no mesmo.
+
+**Tópico**: `/lance/{id_leilao}/inicio`
+
+Inicia um leilão
+
+**Tópico**: `/lance/{id_leilao}/finaliza`
+
+Finaliza um leilão.
 
 # Nível 2
 
