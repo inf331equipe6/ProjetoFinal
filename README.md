@@ -1,5 +1,6 @@
 # Projeto Final
 Projeto Final de conclusão da disciplina INF331 - Componentização e Reuso de Software: Conceitos e Práticas (2020)
+Github: [ inf331equipe6 / ProjetoFinal ](https://github.com/inf331equipe6/ProjetoFinal/)
 
 # Projeto `6MKT`
 
