@@ -65,7 +65,7 @@ Sua interface `Gerência de Pgto` representa a comunicação da platforma com os
 
 ### Interface `Leilao`
 
-> Esta interface tem como objetivo e responsabilidade fornecer meios para iniciar ou finalizar um leilão.
+Esta interface tem como objetivo e responsabilidade fornecer meios para iniciar ou finalizar um leilão.
 
 **Tópico**: `/leilao/{id_leilao}/lances`
 
@@ -95,10 +95,10 @@ Classes que representam objetos JSON associados às mensagens da interface:
 
 ### Interface `Lance`
 
-> Esta interface tem como objetivo e responsabilidade fornecer meios para iniciar um leilão e dar lances futuros no mesmo.
+Esta interface tem como objetivo e responsabilidade fornecer meios para iniciar um leilão e dar lances futuros no mesmo.
 
 **Tópico**: `/lance/request`
-> Cria um leilão com base nas informações enviadas
+Cria um leilão com base nas informações enviadas
 
 Classes que representam objetos JSON associados às mensagens da interface:
 
@@ -117,7 +117,7 @@ Classes que representam objetos JSON associados às mensagens da interface:
 ~~~
 
 **Tópico**: `/lance/{id_leilao}/ofertas`
-> Realizar uma oferta em um leilão.
+Realizar uma oferta em um leilão.
 
 Classes que representam objetos JSON associados às mensagens da interface:
 
